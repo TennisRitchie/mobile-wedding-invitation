@@ -1,12 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { WEDDING_DATA } from "@/data/wedding-data";
 
-// Using a list of images with orientation.
-// Pattern: V, V, H, V, V, H... for variety
 const slideVariants = {
   enter: (direction: number) => {
     return {
@@ -33,22 +31,11 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-interface GalleryImage {
-  src: string;
-  alt: string;
-  isHorizontal: boolean;
-}
-
 export default function GallerySection() {
-  // Retrieve images from wedding data
   const galleryImages = WEDDING_DATA.images.gallery;
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  const containerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(containerRef, { amount: 0.1 });
-  const isHovering = useRef(false);
 
-  // State for direction of slide
   const [direction, setDirection] = useState(0);
 
   const paginate = (newDirection: number) => {
@@ -56,63 +43,20 @@ export default function GallerySection() {
     setDirection(newDirection);
 
     let nextIndex = selectedImage + newDirection;
-    // Loop navigation
     if (nextIndex < 0) nextIndex = galleryImages.length - 1;
     if (nextIndex >= galleryImages.length) nextIndex = 0;
 
     setSelectedImage(nextIndex);
-  };
-
-  // Auto-scroll effect
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const autoScroll = () => {
-      // Check if Lenis is currently handling a user interaction (velocity check)
-      // We assume if velocity is significant, user is scrolling.
-      // @ts-ignore
-      const isUserScrolling =
-        window.lenis && Math.abs(window.lenis.velocity) > 0.1;
-
-      if (
-        isInView &&
-        !isHovering.current &&
-        selectedImage === null &&
-        !isUserScrolling
-      ) {
-        // Use Lenis for scrolling if available to keep state in sync
-        // @ts-ignore
-        if (window.lenis) {
-          // @ts-ignore
-          window.lenis.scrollTo(window.lenis.scroll + 1, { immediate: true });
-        } else {
-          window.scrollBy({ top: 1, behavior: "instant" });
-        }
-      }
-      animationFrameId = requestAnimationFrame(autoScroll);
-    };
-
-    // Start loop
-    animationFrameId = requestAnimationFrame(autoScroll);
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isInView, selectedImage]);
+  };  
 
   if (!galleryImages || galleryImages.length === 0) {
-    return null; // Or a placeholder
+    return null;
   }
 
   return (
-    <section
-      ref={containerRef}
-      className="relative bg-white pb-20 pt-10 px-0 min-h-screen"
-      onMouseEnter={() => (isHovering.current = true)}
-      onMouseLeave={() => (isHovering.current = false)}
-      onTouchStart={() => (isHovering.current = true)}
-      onTouchEnd={() => (isHovering.current = false)}
-    >
-      {/* Strict 2-column grid on ALL screens */}
-      <div className="grid grid-cols-2 gap-[2px] md:gap-[4px]">
+    <section className="relative bg-white pb-20 pt-10 px-0 min-h-screen">
+      {/* Strict 3-column grid on ALL screens (roughly 3 x 11), all photos same aspect ratio */}
+      <div className="grid grid-cols-3 gap-2 md:gap-4 px-2 md:px-4">
         {galleryImages.map((item, index) => (
           <motion.div
             key={index}
@@ -120,10 +64,7 @@ export default function GallerySection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
             viewport={{ once: true, margin: "-10%" }}
-            className={`
-              relative cursor-pointer group overflow-hidden bg-gray-100
-              ${item.isHorizontal ? "col-span-2 aspect-[4/3]" : "col-span-1 aspect-[3/4]"}
-            `}
+            className="relative cursor-pointer group overflow-hidden rounded-lg bg-gray-100 col-span-1 aspect-square"
             onClick={() => {
               setDirection(0);
               setSelectedImage(index);
@@ -137,7 +78,7 @@ export default function GallerySection() {
               }
               fill
               className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-              sizes={item.isHorizontal ? "100vw" : "50vw"}
+              sizes="33vw"
               quality={85}
             />
 
@@ -208,7 +149,7 @@ export default function GallerySection() {
                         `${WEDDING_DATA.content.gallery.photoAlt} ${selectedImage + 1}`
                       }
                       fill
-                      className="object-contain select-none pointer-events-none" // prevent image drag behavior
+                      className="object-contain select-none pointer-events-none"
                       quality={100}
                       priority
                       draggable={false}
@@ -219,7 +160,6 @@ export default function GallerySection() {
             </div>
 
             {/* Navigation Arrows */}
-            {/* Left Arrow */}
             <button
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white p-4 hover:bg-white/10 rounded-full transition-colors z-50 hidden md:block"
               onClick={(e) => {
@@ -243,7 +183,6 @@ export default function GallerySection() {
               </svg>
             </button>
 
-            {/* Right Arrow */}
             <button
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white p-4 hover:bg-white/10 rounded-full transition-colors z-50 hidden md:block"
               onClick={(e) => {

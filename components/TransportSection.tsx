@@ -18,8 +18,8 @@ export default function TransportSection() {
         </ScrollSection>
 
         <ScrollSection animation="fade-up" delay={0.1}>
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center gap-2 mb-3">
+          <div className="text-center mb-4">
+            <div className="inline-flex items-center justify-center gap-2 mb-6">
               <svg
                 className="w-5 h-5 text-[var(--color-primary)]"
                 fill="none"
@@ -36,15 +36,22 @@ export default function TransportSection() {
                 <circle cx="17" cy="17" r="2" />
               </svg>
               <h3 className="text-lg heading-serif text-[var(--color-text)]">
-                {WEDDING_DATA.content.transport.parking.title}
+                교통편
               </h3>
             </div>
-            <p
-              className="text-sm text-[var(--color-text-light)]"
-              dangerouslySetInnerHTML={{
-                __html: WEDDING_DATA.content.transport.parking.desc,
-              }}
-            />
+            <div className="flex flex-col gap-6">
+              {WEDDING_DATA.content.transport.traffic.map((item, index) => (
+                <div key={index}>
+                  <p className="text-sm font-medium text-[var(--color-primary)] mb-1">
+                    {item.label}
+                  </p>
+                  <p
+                    className="text-sm text-[var(--color-text-light)]"
+                    dangerouslySetInnerHTML={{ __html: item.desc }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </ScrollSection>
       </div>
