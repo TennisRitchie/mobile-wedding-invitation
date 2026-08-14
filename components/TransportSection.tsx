@@ -4,56 +4,36 @@ import ScrollSection from "./gsap/ScrollSection";
 import { WEDDING_DATA } from "@/data/wedding-data";
 
 export default function TransportSection() {
-  return (
-    <section className="section section-alt">
-      <div className="section-inner">
-        <ScrollSection animation="fade-up" className="text-center mb-10">
-          <p className="eyebrow mb-2">
-            {WEDDING_DATA.content.transport.eyebrow}
-          </p>
-          <h2 className="text-3xl heading-serif text-[var(--color-text)]">
-            {WEDDING_DATA.content.transport.title}
-          </h2>
-          <div className="section-divider" />
-        </ScrollSection>
+  const { traffic } = WEDDING_DATA.content.transport;
 
-        <ScrollSection animation="fade-up" delay={0.1}>
-          <div className="text-center mb-4">
-            <div className="inline-flex items-center justify-center gap-2 mb-6">
-              <svg
-                className="w-5 h-5 text-[var(--color-primary)]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10l-1.6-3.2A2 2 0 0014.6 5H9.4a2 2 0 00-1.8 1.1L6 10l-2.5 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"
-                />
-                <circle cx="7" cy="17" r="2" />
-                <circle cx="17" cy="17" r="2" />
-              </svg>
-              <h3 className="text-lg heading-serif text-[var(--color-text)]">
-                교통편
-              </h3>
-            </div>
-            <div className="flex flex-col gap-6">
-              {WEDDING_DATA.content.transport.traffic.map((item, index) => (
-                <div key={index}>
-                  <p className="text-sm font-medium text-[var(--color-primary)] mb-1">
-                    {item.label}
+  return (
+    <section className="pt-5 pb-[60px] px-8">
+      <div className="flex flex-col">
+        {traffic.map((item, index) => (
+          <ScrollSection key={index} animation="fade-up" delay={index * 0.1}>
+            <div className="flex flex-col gap-3 py-5 border-t border-dotted border-[#e0e0e0] text-[14px] leading-[25px]">
+              <p className="text-[var(--color-primary)] font-semibold">
+                {item.label}
+              </p>
+              <div className="text-[var(--color-text)] break-keep">
+                {item.lines.map((line, i) => (
+                  <p key={i} className="flex items-center gap-2">
+                    <span
+                      className="inline-block w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: line.color }}
+                    />
+                    {line.text}
                   </p>
-                  <p
-                    className="text-sm text-[var(--color-text-light)]"
-                    dangerouslySetInnerHTML={{ __html: item.desc }}
-                  />
-                </div>
-              ))}
+                ))}
+                {item.extra && (
+                  <p className={item.lines.length ? "pt-2" : ""}>
+                    {item.extra}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        </ScrollSection>
+          </ScrollSection>
+        ))}
       </div>
     </section>
   );

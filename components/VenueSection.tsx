@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { WEDDING_DATA } from "@/data/wedding-data";
 import ScrollSection from "./gsap/ScrollSection";
 import MapSection from "./MapSection";
-import Image from "next/image";
+import SectionHeader from "./SectionHeader";
 
 export default function VenueSection() {
-  const { venue, date } = WEDDING_DATA;
+  const { venue } = WEDDING_DATA;
+  const [showSketch, setShowSketch] = useState(false);
 
   const openNaverMap = () => {
     // Keep using the original Korean address for robust map search in Korea
@@ -21,60 +23,92 @@ export default function VenueSection() {
   };
 
   return (
-    <section className="section">
-      <div className="section-inner">
-        <ScrollSection animation="fade-up" className="text-center mb-10">
-          <p className="eyebrow mb-2">{WEDDING_DATA.content.venue.eyebrow}</p>
-          <h2 className="text-3xl heading-serif text-[var(--color-text)]">
-            {WEDDING_DATA.content.venue.title}
-          </h2>
-          <div className="section-divider" />
-        </ScrollSection>
+    <section className="section pb-0">
+      <SectionHeader eyebrow="Location" title={WEDDING_DATA.content.venue.title} />
 
-        <ScrollSection animation="fade-up" delay={0.1}>
-          <div className="text-center mb-8">
-            <h3 className="text-lg heading-serif text-[var(--color-text)] mb-2">
-              {WEDDING_DATA.venue.name}
-            </h3>
-            <p className="text-sm text-[var(--color-text-light)] mb-1">
-              {WEDDING_DATA.venue.address}
-            </p>
-            <p className="text-sm text-[var(--color-text-light)]">
-              Tel. {WEDDING_DATA.venue.phone}
-            </p>
-            <p className="text-[var(--color-primary)] text-sm mt-3 font-medium tracking-[0.2em] uppercase">
-              {WEDDING_DATA.venue.date}
-            </p>
-          </div>
-        </ScrollSection>
+      <ScrollSection animation="fade-up" delay={0.1}>
+        <div className="mt-8 text-center">
+          <h3 className="text-[18px] leading-[28px] text-[var(--color-primary)] break-keep">
+            {venue.name} {venue.hall}
+          </h3>
+          <p className="mt-2 text-[16px] leading-[24px] text-[var(--color-text-light)] break-keep">
+            {venue.address}
+          </p>
+          <a
+            href={`tel:${venue.phone}`}
+            className="inline-block mt-4 text-[14px] leading-[22px] text-[var(--color-text)]"
+          >
+            Tel. {venue.phone}
+          </a>
+        </div>
+      </ScrollSection>
 
-        <ScrollSection animation="scale" delay={0.2}>
+      <ScrollSection animation="fade-up" delay={0.2}>
+        <div className="-mx-8 pt-8 pb-5">
           <MapSection />
-        </ScrollSection>
+        </div>
+      </ScrollSection>
 
-        <ScrollSection animation="fade-up" delay={0.3}>
-          <div className="flex gap-3 justify-center mt-6">
-            <button
-              onClick={openNaverMap}
-              className="flex items-center gap-2 px-4 py-2.5 bg-[#03C75A] text-white rounded-full text-xs tracking-[0.2em] uppercase transition-transform hover:scale-105"
+      <ScrollSection animation="fade-up" delay={0.3}>
+        <div className="grid grid-cols-3 gap-1.5">
+          <button
+            onClick={openNaverMap}
+            className="flex items-center justify-center gap-1 h-10 rounded-lg bg-white border border-[var(--color-divider)] text-[12px] leading-[18px] text-[var(--color-primary)]"
+          >
+            <svg
+              className="w-[17px] h-[17px] p-0.5 text-[#03C75A]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z" />
-              </svg>
-              {WEDDING_DATA.content.venue.naverMap}
-            </button>
-            <button
-              onClick={openKakaoMap}
-              className="flex items-center gap-2 px-4 py-2.5 bg-[#FEE500] text-[#191919] rounded-full text-xs tracking-[0.2em] uppercase transition-transform hover:scale-105"
+              <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z" />
+            </svg>
+            {WEDDING_DATA.content.venue.naverMap}
+          </button>
+          <button
+            onClick={openKakaoMap}
+            className="flex items-center justify-center gap-1 h-10 rounded-lg bg-white border border-[var(--color-divider)] text-[12px] leading-[18px] text-[var(--color-primary)]"
+          >
+            <svg
+              className="w-[17px] h-[17px] text-[#e0a800]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.47 1.607 4.647 4.035 5.906l-.857 3.17a.375.375 0 00.577.412l3.725-2.482c.818.106 1.661.161 2.52.161 5.523 0 10-3.477 10-7.667S17.523 3 12 3z" />
-              </svg>
-              {WEDDING_DATA.content.venue.kakaoMap}
-            </button>
-          </div>
-        </ScrollSection>
-      </div>
+              <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.47 1.607 4.647 4.035 5.906l-.857 3.17a.375.375 0 00.577.412l3.725-2.482c.818.106 1.661.161 2.52.161 5.523 0 10-3.477 10-7.667S17.523 3 12 3z" />
+            </svg>
+            {WEDDING_DATA.content.venue.kakaoMap}
+          </button>
+          <button
+            onClick={() => setShowSketch(!showSketch)}
+            className="flex items-center justify-center gap-1 h-10 rounded-lg bg-white border border-[var(--color-divider)] text-[12px] leading-[18px] text-[var(--color-primary)]"
+          >
+            <svg
+              className="w-[17px] h-[17px] text-[var(--color-text)]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.8}
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+              />
+            </svg>
+            {WEDDING_DATA.content.venue.sketchMap}
+          </button>
+        </div>
+      </ScrollSection>
+
+      {showSketch && (
+        <div className="flex justify-center mt-5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={venue.sketchImage}
+            alt="예식장 약도"
+            className="w-full max-w-[326px]"
+          />
+        </div>
+      )}
     </section>
   );
 }

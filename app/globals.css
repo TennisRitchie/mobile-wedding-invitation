@@ -2,20 +2,24 @@
 
 /* Theme tokens */
 :root {
-  /* Colors - Soft romantic palette */
-  --color-primary: #c9a87c; /* Gold/champagne */
-  --color-primary-light: #e8d4b8;
-  --color-secondary: #f5ebe0; /* Cream */
-  --color-accent: #d4a5a5; /* Dusty rose */
-  --color-text: #5c5c5c; /* Soft gray */
-  --color-text-light: #8a8a8a;
-  --color-background: #fdfcfb; /* Off-white */
-  --color-divider: #e8e0d5;
+  --color-primary: #1a1a1a; /* --color-emp / --label-primary */
+  --color-primary-light: #404040; /* --color-emp-btn 기본값 */
+  --color-secondary: #f4f4f4; /* 카드 헤더 등 옅은 그레이 */
+  --color-accent: #1a1a1a;
+  --color-text: #4d4c4c; /* --label-secondary */
+  --color-text-light: #999999; /* --label-tertiary */
+  --color-background: #fafafa; /* --bg-page */
+  --color-surface: #ffffff; /* --surface-card */
+  --color-divider: rgba(64, 64, 64, 0.16); /* --border-subtle */
+  --color-divider-strong: rgba(64, 64, 64, 0.3); /* --border-strong */
+  --color-sunday: #b27085;
+  --color-dday: #f79e9e;
 
-  /* Typography */
-  --font-script: "Great Vibes", "Lavishly Yours", cursive;
-  --font-serif: "Cormorant Garamond", "Noto Serif KR", Georgia, serif;
-  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography — 메인화면 영문은 Bona Nova SC, 섹션 영문 타이틀·디데이 숫자는 Crimson Pro */
+  --font-serif: "Bona Nova SC", "Bona Nova", "Gowun Dodum", Georgia, serif;
+  --font-sans: "Gowun Dodum", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-script: "Bona Nova SC", "Bona Nova", Georgia, serif;
+  --font-eng: "Crimson Pro", Georgia, serif;
 
   /* Spacing */
   --section-padding: 4rem 1.5rem;
@@ -51,47 +55,35 @@ body {
   font-family: var(--font-sans);
   color: var(--color-text);
   background-color: var(--color-background);
-  background-image:
-    radial-gradient(1200px 600px at 10% -10%, #f3e6d6 0%, transparent 55%),
-    radial-gradient(900px 500px at 110% 10%, #f7eee6 0%, transparent 50%),
-    linear-gradient(180deg, #fdfcfb 0%, #fbf7f1 100%);
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.8; /* 2.5rem/1.4rem */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-stroke: 0.2px;
 }
 
 /* Typography */
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 400;
   letter-spacing: 0.03em;
 }
 
 /* App layout (app/page.tsx) */
 .page-shell {
-  max-width: 720px;
+  max-width: 425px;
   margin: 0 auto;
   min-height: 100vh;
   background: var(--color-background);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  border-left: 1px solid var(--color-divider);
-  border-right: 1px solid var(--color-divider);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
   overflow-x: hidden;
   position: relative;
 }
 
-@media (min-width: 768px) {
-  .page-shell {
-    border-radius: 28px;
-    margin: 24px auto;
-    overflow: hidden;
-  }
-}
-
 .section {
-  padding: 5rem 1.5rem;
+  padding: 60px 32px;
   position: relative;
 }
 
@@ -105,10 +97,21 @@ h3 {
 }
 
 .eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
+  font-family: var(--font-eng);
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 22px;
   text-transform: uppercase;
   color: var(--color-primary);
+  opacity: 0.6;
+}
+
+.ko-title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  color: var(--color-primary);
+  text-align: center;
 }
 
 .heading-script {
@@ -120,36 +123,32 @@ h3 {
 }
 
 .soft-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-surface);
   border: 1px solid var(--color-divider);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
+  box-shadow: none;
+  border-radius: 12px;
 }
 
-/* Shared section elements (Intro, Gallery, Venue, Transport, Contact, Footer) */
+/* Shared section elements */
 .section-divider {
-  width: 72px;
+  width: 40px;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-primary),
-    transparent
-  );
-  margin: 1.5rem auto;
-  position: relative;
+  background: var(--color-divider);
+  margin: 0 auto;
 }
 
-.section-divider::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--color-primary);
-  transform: translate(-50%, -50%);
+.intro-quote-src {
+  font-size: 0.78rem;
+  color: var(--color-text-light);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* Scrollbar styling */
@@ -162,7 +161,7 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary-light);
+  background: #cfcfcc;
   border-radius: 2px;
 }
 
@@ -175,11 +174,36 @@ h3 {
   text-decoration: none;
   padding: 0.6rem 1.1rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-surface);
   border: 1px solid var(--color-divider);
   transition: all 0.2s ease;
 }
 
 .phone-link:hover {
-  background: var(--color-primary-light);
+  background: var(--color-secondary);
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--snow-drift, 20px), 105vh, 0);
+    opacity: 0.2;
+  }
+}
+
+.snow-flake {
+  position: absolute;
+  top: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  animation-name: snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  pointer-events: none;
 }

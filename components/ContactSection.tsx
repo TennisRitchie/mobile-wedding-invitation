@@ -1,146 +1,185 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { WEDDING_DATA } from "@/data/wedding-data";
 import ScrollSection from "./gsap/ScrollSection";
+import SectionHeader from "./SectionHeader";
 
-interface AccountInfo {
+interface AccountCard {
+  label: string;
+  name: string;
   bank: string;
   accountNumber: string;
   depositor: string;
 }
 
-interface PersonContact {
-  name: string;
-  phone?: string;
-  account?: AccountInfo;
+function buildCards(side: "groom" | "bride"): AccountCard[] {
+  const person = side === "groom" ? WEDDING_DATA.groom : WEDDING_DATA.bride;
+  const label =
+    side === "groom"
+      ? WEDDING_DATA.content.intro.groomLabel
+      : WEDDING_DATA.content.intro.brideLabel;
+  const cards: AccountCard[] = [
+    {
+      label,
+      name: person.name,
+      ...person.account,
+    },
+  ];
+  const parents = person.parents as Record<
+    string,
+    {
+      name: string;
+      account?: { bank: string; accountNumber: string; depositor: string };
+    }
+  >;
+  for (const [key, p] of Object.entries(parents)) {
+    if (p.account) {
+      cards.push({
+        label:
+          key === "father"
+            ? WEDDING_DATA.content.contact.father
+            : WEDDING_DATA.content.contact.mother,
+        name: p.name,
+        bank: p.account.bank,
+        accountNumber: p.account.accountNumber,
+        depositor: p.account.depositor,
+      });
+    }
+  }
+  return cards;
 }
 
-function ContactCard({
+export default function ContactSection() {
+  const [side, setSide] = useState<"groom" | "bride">("groom");
+  const cards = buildCards(side);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert(WEDDING_DATA.content.contact.copied);
+  };
+
+  return (
+    <section className="section text-center flex flex-col items-center gap-8">
+      <SectionHeader
+        eyebrow="Account"
+        title={WEDDING_DATA.content.contact.title}
+      />
+
+      <ScrollSection animation="fade-up">
+        <p
+          className="text-[14px] leading-[25px] text-[var(--color-text)] whitespace-pre-wrap"
+          dangerouslySetInnerHTML={{
+            __html: WEDDING_DATA.content.contact.description,
+          }}
+        />
+      </ScrollSection>
+
+      <ScrollSection animation="fade-up" delay={0.1} className="w-full">
+        <div className="flex justify-center w-full px-4">
+          <div className="grid grid-cols-2 items-center rounded-full bg-[rgba(0,0,0,0.08)] p-[2px]">
+            {(
+              [
+                ["groom", WEDDING_DATA.content.contact.groomSide],
+                ["bride", WEDDING_DATA.content.contact.brideSide],
+              ] as const
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setSide(key)}
+                className={`min-w-[92px] max-w-[160px] px-4 py-4 rounded-full text-[14px] leading-[12px] whitespace-nowrap transition-colors duration-300 ${
+                  side === key
+                    ? "bg-white text-[var(--color-primary)]"
+                    : "text-[var(--color-text-light)]"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </ScrollSection>
+
+      <div className="w-full pb-0.5 overflow-x-auto snap-x snap-mandatory scrollbar-none">
+        <div className="flex gap-3 px-[15%]">
+          {cards.map((card, i) => (
+            <div
+              key={`${side}-${i}`}
+              className="w-[70%] max-w-[280px] shrink-0 snap-center"
+            >
+              <div className="grid gap-4 rounded-2xl bg-white p-3 shadow-[0_1px_1.5px_rgba(26,26,26,0.1)] text-[14px] leading-[25px]">
+                <p className="flex items-center justify-center text-[var(--color-primary)]">
+                  {card.label} {card.name}
+                </p>
+                <button
+                  onClick={() => copyToClipboard(card.accountNumber)}
+                  className="flex items-center justify-center gap-2 px-2 text-[var(--color-text)]"
+                >
+                  <span className="flex flex-wrap justify-center gap-2">
+                    {card.bank} {card.accountNumber}
+                  </span>
+                  <svg
+                    className="w-3.5 h-3.5 shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.8}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * [기존 방식] 아코디언형 계좌 안내 (신랑측/신부측 접기·펼치기)
+ * 스와이프 대신 이 방식을 쓰려면:
+ *   1) 아래 주석을 해제
+ *   2) 위 ContactSection의 세그먼트 토글 + 카드 스와이프 부분을
+ *      <AccountGroupAccordion title={...} side="groom" /> 형태로 교체
+ * ============================================================
+
+import { motion, AnimatePresence } from "framer-motion";
+
+function AccountGroupAccordion({
   title,
   side,
-  person,
-  parents,
   delay = 0,
 }: {
   title: string;
   side: "groom" | "bride";
-  person: { name: string; phone: string; account: AccountInfo };
-  parents: { father: PersonContact; mother: PersonContact };
   delay?: number;
 }) {
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const cards = buildCards(side);
 
-  // Determine names based on side
-  const mainName =
-    side === "groom" ? WEDDING_DATA.groom.name : WEDDING_DATA.bride.name;
-  const fatherName =
-    side === "groom"
-      ? WEDDING_DATA.groom.parents.father.name
-      : WEDDING_DATA.bride.parents.father.name;
-  const motherName =
-    side === "groom"
-      ? WEDDING_DATA.groom.parents.mother.name
-      : WEDDING_DATA.bride.parents.mother.name;
-
-  const copyToClipboard = (text: string, label: string) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert(`${label} ${WEDDING_DATA.content.contact.copied}`);
+    alert(WEDDING_DATA.content.contact.copied);
   };
 
   return (
-    <ScrollSection animation="fade-up" delay={delay}>
-      <div className="soft-card p-6">
-        <div className="text-center mb-4">
-          <span className="text-xs tracking-[0.3em] text-[var(--color-primary)] uppercase">
-            {title}
-          </span>
-          <h3 className="text-2xl heading-serif text-[var(--color-text)] mt-1">
-            {mainName}
-          </h3>
-        </div>
-
-        {/* Phone contacts */}
-        <div className="space-y-2 mb-4">
-          <a
-            href={`tel:${person.phone}`}
-            className="phone-link w-full justify-center"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-              />
-            </svg>
-            <span className="text-sm">{WEDDING_DATA.content.contact.call}</span>
-          </a>
-
-          <div className="flex gap-2">
-            {parents.father.phone ? (
-              <a
-                href={`tel:${parents.father.phone}`}
-                className="phone-link flex-1 justify-center text-xs"
-              >
-                <span>
-                  {WEDDING_DATA.content.contact.father} {fatherName}
-                </span>
-              </a>
-            ) : (
-              <div className="phone-link flex-1 justify-center text-xs opacity-50 cursor-not-allowed">
-                <span>
-                  {WEDDING_DATA.content.contact.father} {fatherName}
-                </span>
-              </div>
-            )}
-            {parents.mother.phone ? (
-              <a
-                href={`tel:${parents.mother.phone}`}
-                className="phone-link flex-1 justify-center text-xs"
-              >
-                <span>
-                  {WEDDING_DATA.content.contact.mother} {motherName}
-                </span>
-              </a>
-            ) : (
-              <div className="phone-link flex-1 justify-center text-xs opacity-50 cursor-not-allowed">
-                <span>
-                  {WEDDING_DATA.content.contact.mother} {motherName}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Account toggle */}
+    <ScrollSection animation="fade-up" delay={delay} className="w-full">
+      <div className="rounded-lg overflow-hidden w-full">
         <button
-          onClick={() => setIsAccountOpen(!isAccountOpen)}
-          className="w-full py-3 border border-[var(--color-divider)] rounded-full text-xs tracking-[0.25em] uppercase text-[var(--color-text)] flex items-center justify-center gap-2 transition-colors hover:bg-[var(--color-secondary)]"
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative w-full flex items-center justify-center py-[14px] bg-[#f3f3f3] rounded-t-lg text-[14px] leading-[25px] text-[var(--color-primary)]"
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-            />
-          </svg>
-          {WEDDING_DATA.content.contact.accountButton}
+          {title}
           <motion.svg
-            animate={{ rotate: isAccountOpen ? 180 : 0 }}
-            className="w-4 h-4"
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            className="absolute right-[15px] top-1/2 w-4 h-4 text-[var(--color-text-light)]"
+            style={{ translateY: "-50%" }}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -154,41 +193,46 @@ function ContactCard({
           </motion.svg>
         </button>
 
-        <AnimatePresence>
-          {isAccountOpen && (
+        <AnimatePresence initial={false}>
+          {isOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="overflow-hidden"
+              className="overflow-hidden rounded-b-lg"
             >
-              <div className="pt-4 space-y-3">
-                {/* Main person account */}
-                <AccountRow
-                  label={mainName}
-                  account={person.account}
-                  onCopy={copyToClipboard}
-                />
-
-                {/* Father's account if exists */}
-                {parents.father.account && (
-                  <AccountRow
-                    label={`${WEDDING_DATA.content.contact.father} ${fatherName}`}
-                    account={parents.father.account}
-                    onCopy={copyToClipboard}
-                  />
-                )}
-
-                {/* Mother's account if exists */}
-                {parents.mother.account && (
-                  <AccountRow
-                    label={`${WEDDING_DATA.content.contact.mother} ${motherName}`}
-                    account={parents.mother.account}
-                    onCopy={copyToClipboard}
-                  />
-                )}
-              </div>
+              {cards.map((card, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between bg-white p-4 border-b border-[rgba(26,26,26,0.12)] last:border-b-0"
+                >
+                  <div className="flex flex-col items-start gap-1 text-[14px] leading-[22px] text-left">
+                    <p className="text-[var(--color-primary)]">
+                      {card.label} {card.name}
+                    </p>
+                    <button
+                      onClick={() => copyToClipboard(card.accountNumber)}
+                      className="flex flex-wrap items-center gap-1 text-[var(--color-text)]"
+                    >
+                      {card.bank} {card.accountNumber}
+                      <svg
+                        className="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.8}
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ))}
             </motion.div>
           )}
         </AnimatePresence>
@@ -197,82 +241,4 @@ function ContactCard({
   );
 }
 
-function AccountRow({
-  label,
-  account,
-  onCopy,
-}: {
-  label: string;
-  account: AccountInfo;
-  onCopy: (text: string, label: string) => void;
-}) {
-  return (
-    <div className="bg-[var(--color-secondary)] rounded-xl p-3">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-xs text-[var(--color-text-light)]">{label}</span>
-        <button
-          onClick={() =>
-            onCopy(account.accountNumber, WEDDING_DATA.content.contact.account)
-          }
-          className="text-xs text-[var(--color-primary)] flex items-center gap-1"
-        >
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-            />
-          </svg>
-          {WEDDING_DATA.content.contact.copy}
-        </button>
-      </div>
-      <p className="text-sm text-[var(--color-text)]">
-        {account.bank} {account.accountNumber}
-      </p>
-      <p className="text-xs text-[var(--color-text-light)] mt-0.5">
-        {WEDDING_DATA.content.contact.depositor}: {account.depositor}
-      </p>
-    </div>
-  );
-}
-
-export default function ContactSection() {
-  const { groom, bride, parents } = WEDDING_DATA;
-
-  return (
-    <section className="section">
-      <div className="section-inner">
-        <ScrollSection animation="fade-up" className="text-center mb-10">
-          <p className="eyebrow mb-2">{WEDDING_DATA.content.contact.eyebrow}</p>
-          <h2 className="text-3xl heading-serif text-[var(--color-text)]">
-            {WEDDING_DATA.content.contact.title}
-          </h2>
-          <div className="section-divider" />
-        </ScrollSection>
-
-        <div className="space-y-4">
-          <ContactCard
-            title={WEDDING_DATA.content.contact.groomSide}
-            side="groom"
-            person={groom}
-            parents={parents.groom}
-            delay={0.1}
-          />
-          <ContactCard
-            title={WEDDING_DATA.content.contact.brideSide}
-            side="bride"
-            person={bride}
-            parents={parents.bride}
-            delay={0.2}
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
+============================================================ */

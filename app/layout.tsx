@@ -13,11 +13,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "모바일 청첩장",
-  description: "소중한 분들을 저희 결혼식에 초대합니다",
+  title: "11월 08일 이지훈 ♥ 박지수 결혼합니다.",
+  description: "소중한 분들을 초대합니다",
   openGraph: {
-    title: "모바일 청첩장",
-    description: "소중한 분들을 저희 결혼식에 초대합니다",
+    title: "11월 08일 이지훈 ♥ 박지수 결혼합니다.",
+    description: "소중한 분들을 초대합니다",
     type: "website",
   },
 };
@@ -37,7 +37,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400;500;600&family=Lavishly+Yours&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Bona+Nova:ital,wght@0,400;0,700;1,400&family=Bona+Nova+SC&family=Crimson+Pro:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
       </head>

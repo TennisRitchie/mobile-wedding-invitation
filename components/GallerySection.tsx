@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { WEDDING_DATA } from "@/data/wedding-data";
+import SectionHeader from "./SectionHeader";
 
 const slideVariants = {
   enter: (direction: number) => {
@@ -33,10 +34,11 @@ const swipePower = (offset: number, velocity: number) => {
 
 export default function GallerySection() {
   const galleryImages = WEDDING_DATA.images.gallery;
+  const galleryContent = WEDDING_DATA.content.gallery;
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
   const [direction, setDirection] = useState(0);
+  const [showAll, setShowAll] = useState(false);
 
   const paginate = (newDirection: number) => {
     if (selectedImage === null) return;
@@ -47,49 +49,77 @@ export default function GallerySection() {
     if (nextIndex >= galleryImages.length) nextIndex = 0;
 
     setSelectedImage(nextIndex);
-  };  
+  };
 
   if (!galleryImages || galleryImages.length === 0) {
     return null;
   }
 
-  return (
-    <section className="relative bg-white pb-20 pt-10 px-0 min-h-screen">
-      {/* Strict 3-column grid on ALL screens (roughly 3 x 11), all photos same aspect ratio */}
-      <div className="grid grid-cols-3 gap-2 md:gap-4 px-2 md:px-4">
-        {galleryImages.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            className="relative cursor-pointer group overflow-hidden rounded-lg bg-gray-100 col-span-1 aspect-square"
-            onClick={() => {
-              setDirection(0);
-              setSelectedImage(index);
-            }}
-          >
-            <Image
-              src={item.src}
-              alt={
-                item.alt ||
-                `${WEDDING_DATA.content.gallery.photoAlt} ${index + 1}`
-              }
-              fill
-              className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-              sizes="33vw"
-              quality={85}
-            />
+  const visibleImages = showAll
+    ? galleryImages
+    : galleryImages.slice(0, galleryContent.initialCount);
 
-            {/* Hover Text Reveal */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-              <span className="text-white font-serif tracking-widest text-lg uppercase translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                {WEDDING_DATA.content.gallery.title}
-              </span>
-            </div>
-          </motion.div>
-        ))}
+  return (
+    <section className="py-[60px] flex flex-col gap-8">
+      <SectionHeader eyebrow="Gallery" title={galleryContent.title} />
+
+      <div>
+        <div className="grid grid-cols-3 gap-2 px-5 py-[5px] overflow-hidden">
+          {visibleImages.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-5%" }}
+              className="relative cursor-pointer group overflow-hidden rounded-[4px] bg-[var(--color-divider)] aspect-[10/13]"
+              onClick={() => {
+                setDirection(0);
+                setSelectedImage(index);
+              }}
+            >
+              <Image
+                src={item.src}
+                alt={item.alt || `${galleryContent.photoAlt} ${index + 1}`}
+                fill
+                className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                sizes="(max-width: 720px) 33vw, 240px"
+                quality={85}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {!showAll && galleryImages.length > galleryContent.initialCount && (
+          <div className="relative pt-3">
+            <div
+              className="absolute bottom-full h-[100px] w-full pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(0deg,#fafafa,hsla(0,0%,98%,.55) 60%,hsla(0,0%,98%,.5) 73%,hsla(0,0%,98%,.25) 83%,hsla(0,0%,98%,0))",
+              }}
+            />
+            <button
+              onClick={() => setShowAll(true)}
+              className="flex items-center gap-2 mx-auto p-3 text-[14px] text-[var(--color-text)]"
+            >
+              {galleryContent.more}
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Lightbox Overlay */}
@@ -108,7 +138,7 @@ export default function GallerySection() {
             {/* Close Button */}
             <button className="absolute top-6 right-6 text-white p-2 z-50 hover:opacity-70 transition-opacity">
               <span className="text-xs tracking-widest uppercase">
-                {WEDDING_DATA.content.gallery.close}
+                {galleryContent.close}
               </span>
             </button>
 
@@ -146,7 +176,7 @@ export default function GallerySection() {
                       src={galleryImages[selectedImage].src}
                       alt={
                         galleryImages[selectedImage].alt ||
-                        `${WEDDING_DATA.content.gallery.photoAlt} ${selectedImage + 1}`
+                        `${galleryContent.photoAlt} ${selectedImage + 1}`
                       }
                       fill
                       className="object-contain select-none pointer-events-none"

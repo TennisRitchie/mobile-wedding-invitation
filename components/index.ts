@@ -1,9 +1,0 @@
-export { default as AnimatedSection } from "./AnimatedSection";
-export { default as HeroSection } from "./HeroSection";
-export { default as IntroSection } from "./IntroSection";
-export { default as GallerySection } from "./GallerySection";
-export { default as MapSection } from "./MapSection";
-export { default as VenueSection } from "./VenueSection";
-export { default as TransportSection } from "./TransportSection";
-export { default as ContactSection } from "./ContactSection";
-export { default as FooterSection } from "./FooterSection";
