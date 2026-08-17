@@ -110,8 +110,14 @@ export const WEDDING_DATA = {
         {
           label: "지하철",
           lines: [
-            { color: "#ef7c1c", text: "충무로역 | 8번 출구에서 도보로 5분 소요" },
-            { color: "#33a23d", text: "을지로4가역 | 10번 출구에서 도보로 5분 소요" },            
+            {
+              color: "#ef7c1c",
+              text: "충무로역 | 8번 출구에서 도보로 5분 소요",
+            },
+            {
+              color: "#33a23d",
+              text: "을지로4가역 | 10번 출구에서 도보로 5분 소요",
+            },
           ],
         },
         {
@@ -121,22 +127,22 @@ export const WEDDING_DATA = {
               color: "#0d347f",
               text: "을지로 4가 방면 | 100, 105, 152, 202, 261, 604, 7011",
             },
-            { color: "#3b9f37",
-              text: "퇴계로 방면 : 104, 140, 604, 7011" },
+            { color: "#3b9f37", text: "퇴계로 방면 : 104, 140, 604, 7011" },
           ],
         },
         {
           label: "셔틀버스",
-          lines:[],
-          extra: "예식 1시간 전부터 10~15분 간격으로 왕복 운행 운영시간 및 간격은 예식 상황에 따라 변동 될 수 있습니다 ",
+          lines: [],
+          extra:
+            "예식 1시간 전부터 10~15분 간격으로 왕복 운행 운영시간 및 간격은 예식 상황에 따라 변동 될 수 있습니다 ",
         },
         {
           label: "주차",
-          lines:[],
-          extra: "을지타워 주차장 이용 가능",
-        },  
+          lines: [],
+          extra: "을지트윈타워 지하주차장(B5~B6)",
+        },
       ],
-    },    
+    },
     contact: {
       title: "마음 전하실 곳",
       description:
@@ -246,7 +252,7 @@ export const WEDDING_DATA = {
       {
         src: "/gallery/pic21.jpg",
         alt: "Wedding moment 21",
-      },    
+      },
     ],
   },
 };
