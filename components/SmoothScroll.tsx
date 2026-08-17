@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Lenis from "lenis";
-import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function SmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
@@ -22,7 +22,7 @@ export default function SmoothScroll() {
     });
 
     lenisRef.current = lenis;
-    window.lenis = lenis;
+    (window as unknown as { lenis: Lenis }).lenis = lenis;
 
     // Connect GSAP ScrollTrigger to Lenis
     lenis.on("scroll", ScrollTrigger.update);
@@ -31,13 +31,13 @@ export default function SmoothScroll() {
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
-    
+
     // Disable grid scroll anchoring if needed
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      window.lenis = undefined;
+      (window as unknown as { lenis: Lenis | undefined }).lenis = undefined;
       gsap.ticker.remove((time) => {
         lenis.raf(time * 1000);
       });
@@ -47,8 +47,8 @@ export default function SmoothScroll() {
   // Handle route changes
   useEffect(() => {
     if (lenisRef.current) {
-        // Reset scroll on route change if needed, though for single page invite it's fine.
-        // lenisRef.current.scrollTo(0, { immediate: true });
+      // Reset scroll on route change if needed, though for single page invite it's fine.
+      // lenisRef.current.scrollTo(0, { immediate: true });
     }
   }, [pathname]);
 
