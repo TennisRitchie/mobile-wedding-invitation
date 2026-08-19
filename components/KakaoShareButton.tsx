@@ -23,7 +23,7 @@ export default function KakaoShareButton() {
       content: {
         title: "이지훈 ♥ 박지수 결혼합니다",
         description: "11월 08일 일요일 오전 11시",
-        imageUrl: "https://jihoons2jisu.vercel.app/gallery/thumb.jpg",
+        imageUrl: "https://jihoons2jisu.vercel.app/gallery/thumbpic.jpg",
         link: {
           mobileWebUrl: "https://jihoons2jisu.vercel.app/",
           webUrl: "https://jihoons2jisu.vercel.app/",
