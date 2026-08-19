@@ -17,7 +17,6 @@ export default function WeddingInvitation() {
     <main className="page-shell">
       <div id="music">
         <MusicPlayer />
-        <MusicPlayer />
       </div>
 
       <div id="hero">
