@@ -12,7 +12,7 @@ export default function MapSection() {
   });
 
   return (
-    <div className="w-full overflow-hidden h-[200px]">
+    <div className="w-full overflow-hidden h-[260px]">
       <Map center={venue.coordinates} style={{ width: "100%", height: "100%" }}>
         <MapMarker position={venue.coordinates}>
           <div
