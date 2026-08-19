@@ -161,7 +161,7 @@ export const WEDDING_DATA = {
       initialCount: 6, // 더보기 전 표시 장수
     },
     ending: {
-      ment: "TACOCAT",
+      ment: "잘 살겠습니다.",
     },
     footer: {
       copyright: "© 2026 Wedding Invitation. All rights reserved.",

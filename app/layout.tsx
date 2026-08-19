@@ -4,6 +4,7 @@ import "@/lib/gsap/register";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import SmoothScroll from "@/components/SmoothScroll";
+import Script from "next/script";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -39,6 +40,10 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Bona+Nova:ital,wght@0,400;0,700;1,400&family=Bona+Nova+SC&family=Crimson+Pro:wght@300;400;500&display=swap"
           rel="stylesheet"
+        />
+        <Script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+          strategy="beforeInteractive"
         />
       </head>
       <body>
