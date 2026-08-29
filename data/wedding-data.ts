@@ -93,12 +93,12 @@ export const WEDDING_DATA = {
           label: "지하철",
           lines: [
             {
-              color: "#ef7c1c",
-              text: "충무로역 | 8번 출구에서 도보로 5분 소요",
-            },
-            {
               color: "#33a23d",
               text: "을지로4가역 | 10번 출구에서 도보로 5분 소요",
+            },
+            {
+              color: "#ef7c1c",
+              text: "충무로역 | 8번 출구에서 도보로 5분 소요",
             },
           ],
         },
