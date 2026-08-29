@@ -12,11 +12,6 @@ export const WEDDING_DATA = {
       father: {
         name: "이상식",
         // phone: "010-1111-1111"
-        account: {
-          bank: "국민은행",
-          accountNumber: "1234-56-7890123",
-          depositor: "이상식",
-        },
       },
       mother: {
         name: "김명숙",

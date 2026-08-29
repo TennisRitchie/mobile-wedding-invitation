@@ -7,22 +7,13 @@ const END_TIME = 86;
 
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const tryAutoplay = async () => {
-      try {
-        audio.currentTime = START_TIME;
-        await audio.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
-    };
-    tryAutoplay();
+    audio.currentTime = START_TIME;
 
     const handleTimeUpdate = () => {
       if (audio.currentTime >= END_TIME) {
