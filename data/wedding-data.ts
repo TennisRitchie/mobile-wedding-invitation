@@ -3,24 +3,12 @@ export const WEDDING_DATA = {
   groom: {
     name: "이지훈",
     phone: "010-7382-1332",
-    account: {
-      bank: "국민은행",
-      accountNumber: "1234-56-7890123",
-      depositor: "이지훈",
-    },
     parents: {
       father: {
         name: "이상식",
-        // phone: "010-1111-1111"
       },
       mother: {
         name: "김명숙",
-        // phone: "010-2222-2222"
-        account: {
-          bank: "국민은행",
-          accountNumber: "1234-56-7890123",
-          depositor: "김명숙",
-        },
       },
     },
   },
@@ -61,8 +49,7 @@ export const WEDDING_DATA = {
     hall: "4층 헤스티아홀",
     address: "서울 중구 마른내로 71",
     phone: "02-2280-7000",
-    sketchImage:
-      "https://images.theirmood.com/resources/46097/card/kcVXiy7cf1/9BTlFqQr1P.jpg?f=webp&w=1280",
+    sketchImage: "/gallery/venue-sketch.jpg",
     coordinates: {
       lat: 37.564914230219,
       lng: 126.995681324108,
