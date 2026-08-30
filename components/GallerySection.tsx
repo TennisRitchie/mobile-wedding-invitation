@@ -33,7 +33,8 @@ const swipePower = (offset: number, velocity: number) => {
 };
 
 export default function GallerySection() {
-  const galleryImages = WEDDING_DATA.images.gallery;
+  // 관리자 페이지(/tacocat)에서 숨김 처리한 사진은 제외
+  const galleryImages = WEDDING_DATA.images.gallery.filter((i) => !i.hidden);
   const galleryContent = WEDDING_DATA.content.gallery;
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
