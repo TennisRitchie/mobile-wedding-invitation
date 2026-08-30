@@ -15,29 +15,12 @@ export const WEDDING_DATA = {
   bride: {
     name: "박지수",
     phone: "010-8516-9258",
-    account: {
-      bank: "국민은행",
-      accountNumber: "1234-56-7890123",
-      depositor: "박지수",
-    },
     parents: {
       father: {
         name: "박종우",
-        //phone: "010-3333-3333",
-        account: {
-          bank: "국민은행",
-          accountNumber: "1234-56-7890123",
-          depositor: "박종우",
-        },
       },
       mother: {
         name: "이영순",
-        //phone: "010-4444-4444",
-        account: {
-          bank: "국민은행",
-          accountNumber: "1234-56-7890123",
-          depositor: "이영순",
-        },
       },
     },
   },
@@ -117,15 +100,15 @@ export const WEDDING_DATA = {
           lines: [
             {
               color: "#33a23d",
-              text: "을지로4가역 (2, 5호선) | 10번 출구에서 5분 간격 왕복 운행",
+              text: "을지로4가역 (2, 5호선) | 9번 출구로 나온 후 GS25(편의점) 골목에서 탑승",
             },
             {
               color: "#ef7c1c",
-              text: "충무로역 (3, 4호선) | 8번 출구에서 5분 간격 왕복 운행",
+              text: "충무로역 (3, 4호선) | 8번 출구에서 탑승",
             },
           ],
           extra:
-            "웨딩 행사 시 운행되며, 운영시간 및 간격은 예식 상황에 따라 변동될 수 있습니다.",
+            "예식 1시간 전부터 10~15분 간격으로 운행하며, 운영시간 및 간격은 상황에 따라 변동될 수 있습니다.",
         },
         {
           label: "주차",
