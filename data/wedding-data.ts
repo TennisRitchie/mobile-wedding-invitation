@@ -346,6 +346,198 @@ export const WEDDING_DATA = {
         src: "/gallery/g26.jpg",
         alt: "Wedding moment 47",
       },
+      {
+        src: "/gallery/g27.jpg",
+        alt: "Wedding moment 48",
+      },
+      {
+        src: "/gallery/g28.jpg",
+        alt: "Wedding moment 49",
+      },
+      {
+        src: "/gallery/g29.jpg",
+        alt: "Wedding moment 50",
+      },
+      {
+        src: "/gallery/g30.jpg",
+        alt: "Wedding moment 51",
+      },
+      {
+        src: "/gallery/g31.jpg",
+        alt: "Wedding moment 52",
+      },
+      {
+        src: "/gallery/g32.jpg",
+        alt: "Wedding moment 53",
+      },
+      {
+        src: "/gallery/g33.jpg",
+        alt: "Wedding moment 54",
+      },
+      {
+        src: "/gallery/g34.jpg",
+        alt: "Wedding moment 55",
+      },
+      {
+        src: "/gallery/g35.jpg",
+        alt: "Wedding moment 56",
+      },
+      {
+        src: "/gallery/g36.jpg",
+        alt: "Wedding moment 57",
+      },
+      {
+        src: "/gallery/g37.jpg",
+        alt: "Wedding moment 58",
+      },
+      {
+        src: "/gallery/g38.jpg",
+        alt: "Wedding moment 59",
+      },
+      {
+        src: "/gallery/g39.jpg",
+        alt: "Wedding moment 60",
+      },
+      {
+        src: "/gallery/g40.jpg",
+        alt: "Wedding moment 61",
+      },
+      {
+        src: "/gallery/g41.jpg",
+        alt: "Wedding moment 62",
+      },
+      {
+        src: "/gallery/g42.jpg",
+        alt: "Wedding moment 63",
+      },
+      {
+        src: "/gallery/g43.jpg",
+        alt: "Wedding moment 64",
+      },
+      {
+        src: "/gallery/g44.jpg",
+        alt: "Wedding moment 65",
+      },
+      {
+        src: "/gallery/g45.jpg",
+        alt: "Wedding moment 66",
+      },
+      {
+        src: "/gallery/g46.jpg",
+        alt: "Wedding moment 67",
+      },
+      {
+        src: "/gallery/g47.jpg",
+        alt: "Wedding moment 68",
+      },
+      {
+        src: "/gallery/g48.jpg",
+        alt: "Wedding moment 69",
+      },
+      {
+        src: "/gallery/g49.jpg",
+        alt: "Wedding moment 70",
+      },
+      {
+        src: "/gallery/g50.jpg",
+        alt: "Wedding moment 71",
+      },
+      {
+        src: "/gallery/g51.jpg",
+        alt: "Wedding moment 72",
+      },
+      {
+        src: "/gallery/g52.jpg",
+        alt: "Wedding moment 73",
+      },
+      {
+        src: "/gallery/g53.jpg",
+        alt: "Wedding moment 74",
+      },
+      {
+        src: "/gallery/g54.jpg",
+        alt: "Wedding moment 75",
+      },
+      {
+        src: "/gallery/g55.jpg",
+        alt: "Wedding moment 76",
+      },
+      {
+        src: "/gallery/g56.jpg",
+        alt: "Wedding moment 77",
+      },
+      {
+        src: "/gallery/g57.jpg",
+        alt: "Wedding moment 78",
+      },
+      {
+        src: "/gallery/g58.jpg",
+        alt: "Wedding moment 79",
+      },
+      {
+        src: "/gallery/g59.jpg",
+        alt: "Wedding moment 80",
+      },
+      {
+        src: "/gallery/g60.jpg",
+        alt: "Wedding moment 81",
+      },
+      {
+        src: "/gallery/g61.jpg",
+        alt: "Wedding moment 82",
+      },
+      {
+        src: "/gallery/g62.jpg",
+        alt: "Wedding moment 83",
+      },
+      {
+        src: "/gallery/g63.jpg",
+        alt: "Wedding moment 84",
+      },
+      {
+        src: "/gallery/g64.jpg",
+        alt: "Wedding moment 85",
+      },
+      {
+        src: "/gallery/g65.jpg",
+        alt: "Wedding moment 86",
+      },
+      {
+        src: "/gallery/g66.jpg",
+        alt: "Wedding moment 87",
+      },
+      {
+        src: "/gallery/g67.jpg",
+        alt: "Wedding moment 88",
+      },
+      {
+        src: "/gallery/g68.jpg",
+        alt: "Wedding moment 89",
+      },
+      {
+        src: "/gallery/g69.jpg",
+        alt: "Wedding moment 90",
+      },
+      {
+        src: "/gallery/g70.jpg",
+        alt: "Wedding moment 91",
+      },
+      {
+        src: "/gallery/g71.jpg",
+        alt: "Wedding moment 92",
+      },
+      {
+        src: "/gallery/g72.jpg",
+        alt: "Wedding moment 93",
+      },
+      {
+        src: "/gallery/g73.jpg",
+        alt: "Wedding moment 94",
+      },
+      {
+        src: "/gallery/g74.jpg",
+        alt: "Wedding moment 95",
+      },
     ],
   },
 };
