@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { WEDDING_DATA } from "@/data/wedding-data";
+import { WEDDING_DATA, type GalleryItem } from "@/data/wedding-data";
 import SectionHeader from "./SectionHeader";
 
 const slideVariants = {
@@ -32,9 +32,12 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-export default function GallerySection() {
-  // 관리자 페이지(/tacocat)에서 숨김 처리한 사진은 제외
-  const galleryImages = WEDDING_DATA.images.gallery.filter((i) => !i.hidden);
+export default function GallerySection({ items }: { items?: GalleryItem[] }) {
+  // 서버에서 내려준 목록을 쓰고, 없으면 저장소에 커밋된 기본값 사용.
+  // 관리자 페이지(/tacocat)에서 숨김 처리한 사진은 제외한다.
+  const galleryImages = (items ?? WEDDING_DATA.images.gallery).filter(
+    (i) => !i.hidden
+  );
   const galleryContent = WEDDING_DATA.content.gallery;
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);

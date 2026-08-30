@@ -256,3 +256,30 @@ Node.js를 지원하는 모든 플랫폼에 배포할 수 있습니다:
 ---
 
 특별한 날을 위해 ❤️ 로 만들었습니다.
+
+## 갤러리 관리자 페이지 (`/tacocat`)
+
+사진 순서 변경 / 노출·숨김을 브라우저에서 관리합니다. 저장소는 **Vercel Blob**.
+
+### 환경변수
+
+| 이름 | 설명 |
+|---|---|
+| `ADMIN_PASSWORD` | 관리자 비밀번호 |
+| `ADMIN_SECRET` | 세션 쿠키 서명용 임의 문자열 (`openssl rand -hex 32`) |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob 스토어 연결 시 **자동 주입** |
+
+`BLOB_READ_WRITE_TOKEN` 이 없으면 저장은 실패하지만, 화면은 저장소에 커밋된
+`data/gallery.json` 기본값으로 정상 동작합니다.
+
+### Vercel 설정
+
+1. Vercel 대시보드 → **Storage** → **Create Database** → **Blob** 생성 후 프로젝트에 연결
+   (`BLOB_READ_WRITE_TOKEN` 이 자동으로 추가됩니다)
+2. **Settings → Environment Variables** 에 `ADMIN_PASSWORD`, `ADMIN_SECRET` 추가
+3. 재배포
+
+### 로컬 개발
+
+`.env.local` 에 `ADMIN_PASSWORD`, `ADMIN_SECRET` 을 넣고 `npm run dev`.
+로컬에서도 Blob 에 저장하려면 `vercel env pull` 로 토큰을 받아오세요.
