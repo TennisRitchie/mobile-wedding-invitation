@@ -9,6 +9,31 @@ function splitLine(text: string): [string, string] {
   return [name.trim(), rest.join("|").trim()];
 }
 
+/** 서울 지하철 호선별 공식 노선 색상 */
+const SUBWAY_COLORS: Record<number, string> = {
+  1: "#0052A4",
+  2: "#00A84D",
+  3: "#EF7C1C",
+  4: "#00A5DE",
+  5: "#996CAC",
+  6: "#CD7C2F",
+  7: "#747F00",
+  8: "#E6186C",
+  9: "#BDB092",
+};
+
+function SubwayBadge({ line }: { line: number }) {
+  return (
+    <span
+      aria-label={`${line}호선`}
+      className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full text-[11px] leading-none font-bold text-white shrink-0"
+      style={{ backgroundColor: SUBWAY_COLORS[line] ?? "#767676" }}
+    >
+      {line}
+    </span>
+  );
+}
+
 export default function TransportSection() {
   const { traffic } = WEDDING_DATA.content.transport;
 
@@ -26,12 +51,21 @@ export default function TransportSection() {
                 <ul className="flex flex-col gap-3">
                   {item.lines.map((line, i) => {
                     const [name, detail] = splitLine(line.text);
+                    const subway = "subway" in line ? line.subway : undefined;
                     return (
                       <li key={i} className="flex items-start gap-2.5">
-                        <span
-                          className="mt-[7px] inline-block w-2 h-2 rounded-full shrink-0"
-                          style={{ backgroundColor: line.color }}
-                        />
+                        {subway ? (
+                          <span className="mt-[2px] flex items-center gap-1 shrink-0">
+                            {subway.map((n) => (
+                              <SubwayBadge key={n} line={n} />
+                            ))}
+                          </span>
+                        ) : (
+                          <span
+                            className="mt-[7px] inline-block w-2 h-2 rounded-full shrink-0"
+                            style={{ backgroundColor: line.color }}
+                          />
+                        )}
                         <div className="flex flex-col gap-0.5 break-keep">
                           <span className="text-[14px] leading-[22px] text-[var(--color-primary)] font-medium">
                             {name}

@@ -76,11 +76,13 @@ export const WEDDING_DATA = {
           label: "지하철",
           lines: [
             {
-              color: "#33a23d",
+              color: "#00A84D",
+              subway: [2, 5], // 을지로4가역 경유 호선
               text: "을지로4가역 | 10번 출구에서 도보로 5분 소요",
             },
             {
-              color: "#ef7c1c",
+              color: "#EF7C1C",
+              subway: [3, 4], // 충무로역 경유 호선
               text: "충무로역 | 8번 출구에서 도보로 5분 소요",
             },
           ],
