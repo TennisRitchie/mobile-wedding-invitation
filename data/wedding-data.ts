@@ -4,11 +4,9 @@ export type GalleryItem = {
   src: string;
   thumb?: string;
   alt?: string;
-  /** 관리자 페이지(/tacocat)에서 숨김 처리한 사진 */
-  hidden?: boolean;
 };
 
-/** 노출 순서와 숨김 여부는 data/gallery.json 에서 관리 */
+/** 노출 순서는 data/gallery.json 에서 관리 */
 export const galleryItems: GalleryItem[] = galleryJson;
 
 export const WEDDING_DATA = {

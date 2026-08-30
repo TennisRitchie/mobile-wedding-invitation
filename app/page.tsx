@@ -8,14 +8,8 @@ import GallerySection from "@/components/GallerySection";
 import EndingSection from "@/components/EndingSection";
 import FooterSection from "@/components/FooterSection";
 import KakaoShareButton from "@/components/KakaoShareButton";
-import { readGallery } from "@/lib/gallery-store";
 
-// 관리자 페이지에서 갤러리를 바꾸면 다음 요청부터 반영되도록
-export const revalidate = 60;
-
-export default async function WeddingInvitation() {
-  const gallery = await readGallery();
-
+export default function WeddingInvitation() {
   return (
     <main className="page-shell">
       <div id="music">
@@ -41,7 +35,7 @@ export default async function WeddingInvitation() {
       </div>
 
       <div id="gallery">
-        <GallerySection items={gallery} />
+        <GallerySection />
       </div>
 
       <EndingSection />
