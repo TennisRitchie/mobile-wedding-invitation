@@ -118,7 +118,7 @@ export const WEDDING_DATA = {
         {
           label: "주차",
           lines: [],
-          extra: "을지트윈타워 지하주차장(B5~B6)",
+          extra: "을지트윈타워 지하주차장(B5~B6) / 2시간 무료 주차",
         },
       ],
     },
