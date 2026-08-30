@@ -40,11 +40,12 @@ export default function WeddingInvitation() {
         <GallerySection />
       </div>
 
+      <EndingSection />
+
       <div id="kakaoshare">
         <KakaoShareButton />
       </div>
 
-      <EndingSection />
       <FooterSection />
     </main>
   );

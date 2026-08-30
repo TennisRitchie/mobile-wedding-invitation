@@ -142,6 +142,13 @@ export const WEDDING_DATA = {
     ending: {
       ment: "잘 살겠습니다.",
     },
+    share: {
+      eyebrow: "Share",
+      title: "소식 전하기",
+      description:
+        "저희의 새로운 시작을<br />소중한 분들께 전해주세요.",
+      button: "카카오톡으로 전하기",
+    },
     footer: {
       copyright: "© 2026 Wedding Invitation. All rights reserved.",
     },

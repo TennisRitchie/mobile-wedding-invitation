@@ -38,7 +38,7 @@ export default function TransportSection() {
   const { traffic } = WEDDING_DATA.content.transport;
 
   return (
-    <section className="pt-5 pb-6 px-8">
+    <section className="pt-8 pb-6 px-8">
       <div className="flex flex-col">
         {traffic.map((item, index) => (
           <ScrollSection key={index} animation="fade-up" delay={index * 0.1}>

@@ -23,7 +23,7 @@ export default function VenueSection() {
   };
 
   return (
-    <section className="section pb-0">
+    <section className="section pb-0!">
       <SectionHeader eyebrow="Location" title={WEDDING_DATA.content.venue.title} />
 
       <ScrollSection animation="fade-up" delay={0.1}>
