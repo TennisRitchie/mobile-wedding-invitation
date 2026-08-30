@@ -33,9 +33,10 @@ export const WEDDING_DATA = {
     address: "서울 중구 마른내로 71",
     phone: "02-2280-7000",
     sketchImage: "/gallery/venue-sketch.jpg",
+    // 호텔PJ 건물 중심 (OpenStreetMap 기준) — 기존 좌표보다 약 9m 남쪽
     coordinates: {
-      lat: 37.564914230219,
-      lng: 126.995681324108,
+      lat: 37.564836,
+      lng: 126.995716,
     },
   },
 
