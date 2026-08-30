@@ -9,6 +9,26 @@ import SectionHeader from "./SectionHeader";
 export default function VenueSection() {
   const { venue } = WEDDING_DATA;
   const [showSketch, setShowSketch] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(venue.address);
+    } catch {
+      // 클립보드 API를 못 쓰는 환경(비-HTTPS 등) 대비
+      const el = document.createElement("textarea");
+      el.value = venue.address;
+      el.setAttribute("readonly", "");
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const openNaverMap = () => {
     // Keep using the original Korean address for robust map search in Korea
@@ -97,6 +117,46 @@ export default function VenueSection() {
             {WEDDING_DATA.content.venue.sketchMap}
           </button>
         </div>
+
+        <button
+          onClick={copyAddress}
+          className="mt-1.5 flex items-center justify-center gap-1.5 w-full h-10 rounded-lg bg-white border border-[var(--color-divider)] text-[12px] leading-[18px] text-[var(--color-primary)]"
+        >
+          {copied ? (
+            <svg
+              className="w-[15px] h-[15px] text-[var(--color-primary)]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="w-[15px] h-[15px] text-[var(--color-text)]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.8}
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+          )}
+          {copied
+            ? WEDDING_DATA.content.venue.addressCopied
+            : WEDDING_DATA.content.venue.copyAddress}
+        </button>
       </ScrollSection>
 
       {showSketch && (

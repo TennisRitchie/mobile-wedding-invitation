@@ -69,6 +69,8 @@ export const WEDDING_DATA = {
       naverMap: "네이버지도",
       kakaoMap: "카카오맵",
       sketchMap: "약도 보기",
+      copyAddress: "주소 복사",
+      addressCopied: "주소가 복사되었습니다",
     },
     transport: {
       traffic: [
