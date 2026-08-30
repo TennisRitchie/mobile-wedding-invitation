@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WEDDING_DATA } from "@/data/wedding-data";
 import SectionHeader from "./SectionHeader";
 
@@ -51,6 +51,19 @@ export default function GallerySection() {
     setSelectedImage(nextIndex);
   };
 
+  // 라이트박스가 열리면 앞뒤 사진을 미리 받아둬서 스와이프가 끊기지 않게
+  useEffect(() => {
+    if (selectedImage === null) return;
+    const last = galleryImages.length - 1;
+    [
+      selectedImage === last ? 0 : selectedImage + 1,
+      selectedImage === 0 ? last : selectedImage - 1,
+    ].forEach((i) => {
+      const img = new window.Image();
+      img.src = galleryImages[i].src;
+    });
+  }, [selectedImage, galleryImages]);
+
   if (!galleryImages || galleryImages.length === 0) {
     return null;
   }
@@ -79,12 +92,15 @@ export default function GallerySection() {
               }}
             >
               <Image
-                src={item.src}
+                // 그리드는 400px 썸네일 사용 (정적 내보내기라 next/image 최적화가 없음)
+                src={item.thumb ?? item.src}
                 alt={item.alt || `${galleryContent.photoAlt} ${index + 1}`}
                 fill
                 className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 720px) 33vw, 240px"
-                quality={85}
+                // 첫 줄만 즉시, 나머지는 스크롤 시 지연 로딩
+                loading={index < 3 ? "eager" : "lazy"}
+                priority={index < 3}
               />
             </motion.div>
           ))}
