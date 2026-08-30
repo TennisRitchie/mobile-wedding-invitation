@@ -83,7 +83,8 @@ h3 {
 }
 
 .section {
-  padding: 60px 32px;
+  /* 위아래 40px -> 인접 섹션 사이 간격 80px (모바일에서 과하지 않은 리듬) */
+  padding: 40px 32px;
   position: relative;
 }
 

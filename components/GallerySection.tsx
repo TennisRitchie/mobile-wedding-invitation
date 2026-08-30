@@ -60,7 +60,7 @@ export default function GallerySection() {
     : galleryImages.slice(0, galleryContent.initialCount);
 
   return (
-    <section className="py-[60px] flex flex-col gap-8">
+    <section className="py-10 flex flex-col gap-8">
       <SectionHeader eyebrow="Gallery" title={galleryContent.title} />
 
       <div>
