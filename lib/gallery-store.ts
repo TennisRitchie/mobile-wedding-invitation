@@ -1,5 +1,5 @@
 import "server-only";
-import { head, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import { galleryItems, type GalleryItem } from "@/data/wedding-data";
 
 /**
@@ -12,6 +12,10 @@ import { galleryItems, type GalleryItem } from "@/data/wedding-data";
 
 const BLOB_PATH = "gallery.json";
 const hasBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+
+// Blob 스토어가 private 으로 생성되어 있어 public 접근을 쓸 수 없다.
+// 어차피 서버에서만 읽고 쓰므로 private 이 더 안전하다.
+const ACCESS = "private" as const;
 
 /** 저장소에 커밋된 기본값 (Blob 이 비었을 때의 시작점) */
 export const fallbackItems: GalleryItem[] = galleryItems;
@@ -39,14 +43,15 @@ export async function readGallery(): Promise<GalleryItem[]> {
   if (!hasBlob()) return fallbackItems;
 
   try {
-    // head() 로 URL 을 얻은 뒤 직접 받아야 CDN 캐시를 우회할 수 있다.
-    const meta = await head(BLOB_PATH).catch(() => null);
-    if (!meta) return fallbackItems;
+    // useCache: false -> 저장 직후에도 최신 내용을 읽도록 CDN 캐시를 우회
+    const res = await get(BLOB_PATH, {
+      access: ACCESS,
+      useCache: false,
+    }).catch(() => null);
+    if (!res?.stream) return fallbackItems;
 
-    const res = await fetch(meta.url, { cache: "no-store" });
-    if (!res.ok) return fallbackItems;
-
-    const data = await res.json();
+    const text = await new Response(res.stream).text();
+    const data = JSON.parse(text);
     return isValid(data) ? data : fallbackItems;
   } catch (e) {
     console.error("[gallery] Blob 읽기 실패, 기본값 사용:", e);
@@ -64,7 +69,7 @@ export async function writeGallery(items: GalleryItem[]) {
   }
 
   await put(BLOB_PATH, JSON.stringify(items, null, 2), {
-    access: "public",
+    access: ACCESS,
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
