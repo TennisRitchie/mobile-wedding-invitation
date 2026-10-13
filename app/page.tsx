@@ -8,6 +8,7 @@ import GallerySection from "@/components/GallerySection";
 import EndingSection from "@/components/EndingSection";
 import FooterSection from "@/components/FooterSection";
 import KakaoShareButton from "@/components/KakaoShareButton";
+import ContactSection from "@/components/ContactSection";
 
 export default function WeddingInvitation() {
   return (
@@ -39,6 +40,10 @@ export default function WeddingInvitation() {
       </div>
 
       <EndingSection />
+
+      <div id="contact">
+        <ContactSection />
+      </div>
 
       <div id="kakaoshare">
         <KakaoShareButton />

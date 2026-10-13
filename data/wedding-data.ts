@@ -14,25 +14,27 @@ export const WEDDING_DATA = {
   groom: {
     name: "이지훈",
     phone: "010-7382-1332",
+    account: {
+      bank: "우리은행",
+      accountNumber: "1002-748-695220",
+      depositor: "이지훈",
+    },
     parents: {
-      father: {
-        name: "이상식",
-      },
-      mother: {
-        name: "김명숙",
-      },
+      father: { name: "이상식" },
+      mother: { name: "김명숙" },
     },
   },
   bride: {
     name: "박지수",
     phone: "010-8516-9258",
+    account: {
+      bank: "국민은행",
+      accountNumber: "822401-04-124165",
+      depositor: "박지수",
+    },
     parents: {
-      father: {
-        name: "박종우",
-      },
-      mother: {
-        name: "이영순",
-      },
+      father: { name: "박종우" },
+      mother: { name: "이영순" },
     },
   },
   // 예식 정보
