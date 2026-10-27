@@ -12,6 +12,7 @@ interface AccountCard {
   bank: string;
   accountNumber: string;
   depositor: string;
+  phone?: string;
 }
 
 interface ParentInfo {
@@ -53,6 +54,7 @@ function buildCards(side: "groom" | "bride"): AccountCard[] {
   cards.push({
     label,
     name: person.name,
+    phone: person.phone,
     ...person.account,
   });
 
@@ -138,6 +140,23 @@ function AccountGroupAccordion({
                         />
                       </svg>
                     </button>
+                    {card.phone && (
+                      <div className="flex items-center gap-2 text-[var(--color-text)]">
+                        <span>{card.phone}</span>
+                        <a
+                          href={`tel:${card.phone.replace(/-/g, "")}`}
+                          className="px-2.5 py-0.5 rounded-full bg-[#f3f3f3] text-[12px] text-[var(--color-primary)]"
+                        >
+                          전화
+                        </a>
+                        <a
+                          href={`sms:${card.phone.replace(/-/g, "")}`}
+                          className="px-2.5 py-0.5 rounded-full bg-[#f3f3f3] text-[12px] text-[var(--color-primary)]"
+                        >
+                          문자
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
